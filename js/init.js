@@ -1,13 +1,14 @@
 /* global vars */
 var mapManager;   //
 var dataAdapter;  // サーバとのデータやり取り用クラス
-var vue; // Vueオブジェクト
+var v_card; // Vueオブジェクト
+
 
 function pushStart(){
   console.log("push start!!");
 
   // ここで初めてオブジェクトインスタンス化(ボタン押下される前は動く必要ないんで)
-  mapManager = new MapManager();
+  mapManager = new MapManager("hana_map");
   dataAdapter = new DataAdapter();
 
   // メイン画面表示
@@ -16,17 +17,22 @@ function pushStart(){
   });
 
   // コンテンツを表示状態に
+
   jQuery("#contents").show(300, function(){ });
 
+  console.log("before initialize map");
+
   // mapの初期化
-  mapManager.initialize_map("hana_map");
+
+  mapManager.initialize_map();
 
   // vue実行
-  vue = new Vue({
-    el: "#hana_search_result",
+  v_card = new Vue({
+    el: "#contents",
     data: {
       current: {}, // 現在表示領域
-      list: [] // 下の方に表示されるカード
+      list: [], // 下の方に表示されるカード
+      single_marker: false
     },
     methods: {
       updateList: function(){
@@ -35,7 +41,7 @@ function pushStart(){
 
         // データ取得
         dataAdapter.getAllData(function(data){
-          vue.list = data; // 自身がvueなんでなんかきもいんだけれど、コールバックしている手前this.listができないので...
+          v_card.list = data; // 自身がvueなんでなんかきもいんだけれど、コールバックしている手前this.listができないので...
         }, params);
       },
       selectCard: function(index){ //card選択時の操作
@@ -45,6 +51,7 @@ function pushStart(){
         this.current = this.list[index];
 
         // マップにポイント情報を表示
+        mapManager.setPoint(this.current.lat, this.current.lng, this.single_marker);
 
 
       }

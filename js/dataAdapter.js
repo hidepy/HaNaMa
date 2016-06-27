@@ -6,7 +6,8 @@ var DataAdapter = function(){
   this.getAllData = function(viewCallback, search_condition){
 
     _getJSONP(
-      "http://www51.atpages.jp/hidork0222/store_my_history_map_data/store_my_history_map_data.php",
+      //"http://www51.atpages.jp/hidork0222/store_my_history_map_data/store_my_history_map_data.php",
+      "http://www51.atpages.jp/hidork0222/hanama_data/get_hanama_data.php",
        _onDataHandler,
        viewCallback,
        "myCallback"
@@ -25,22 +26,18 @@ var DataAdapter = function(){
         var item = response[i];
 
         datas.push({
-            id: item.id,
-            name: item.name,
-            lat: item.lat,
-            lng: item.lng,
-            //latLng: new google.maps.LatLng(lat, lng),
-            zip_no: item.zip_no,
-            address: item.address,
-            caption: item.caption,
-            prefecture: item.pref,
-            season: item.season,
-            accessibility: item.accessibility,
-            crowdness: item.crowdness,
-            image_url: item.image_url,
-            image_url2: item.image_url2,
-            image_url3: item.image_url3,
-            visit_date: item.visit_date
+          place_id: item.place_id,
+          place_name: item.place_name,
+          pref_cd: item.pref_cd,
+          lat: item.lat,
+          lng: item.lng,
+          caption: item.caption,
+          crowdness: item.crowdness,
+          accessbility: item.accessbility,
+          recommend: item.recommend,
+          picture_url_1: item.picture_url_1,
+          picture_url_2: item.picture_url_2,
+          picture_url_3: item.picture_url_3
         });
       }
     }

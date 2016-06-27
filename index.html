@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="bootstrap3/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/my_history_map.css">
 
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB0HuGNOkJMH3EnJTnEZBTv_Ue7BQhree4&sensor=false"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB0HuGNOkJMH3EnJTnEZBTv_Ue7BQhree4"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.js'></script> <!-- with vue -->
 
@@ -18,11 +18,13 @@
   <script src="js/mapManager.js"></script>
   <script src="js/init.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="lib/lightbox/css/lightbox.css">
-
   <style>
   #contents{
     display: none;
+  }
+  #hana_map{
+    width: 100%;
+    height: 80%;
   }
   </style>
 
@@ -63,7 +65,7 @@
 
   <div id="header" class="jumbotron">
     <div class="container">
-      <h1>HaNaMa!! ~hana map~</h1>
+      <h1>HaNaMa!! hana map</h1>
       <p>this is a webservice to know where to go in target season.</p>
       <button class="btn" onclick="pushStart()">Start</button>
     </div>
@@ -73,77 +75,25 @@
     <div class="container">
 
       <div class="row">
-
         <div class="col-md-4">
-          <div id="hana_map"></div>
+          <div id="hana_map" ></div>
         </div>
-
-        <!--
-        <div id="detail" class="col-md-8">
-
-          <div class="img_box clearfix">
-            <div class="main_img">
-              <a href="{{selected_item.image_url}}" data-lightbox="main_images" data-title="{{selected_item.name}}" ng-style="{'background-image': 'url('+ selected_item.image_url +')'}"></a>
-            </div>
-            <ul class="thumb_group">
-              <li class="thumb_img"><div ng-style="{'background-image': 'url('+ selected_item.image_url +')'}"></div></li>
-              <li class="thumb_img"><div ng-style="{'background-image': 'url('+ selected_item.image_url2 +')'}"></div></li>
-              <li class="thumb_img"><div ng-style="{'background-image': 'url('+ selected_item.image_url3 +')'}"></div></li>
-            </ul>
-          </div>
-
-          <div class="card">
-
-            <div class="card_heading">
-              <h2>{{selected_item.name}}</h2>
-            </div>
-
-            <div class="card_body clearfix">
-              <div class="left_area">
-                <span class="item_name">住所</span>
-                <p>{{selected_item.zip_no}}<br>
-                {{selected_item.address}}</p>
-
-                <span class="item_name">訪れた日</span>
-                <p>{{selected_item.visit_date}}</p>
-
-                <span class="item_name">コメント</span>
-                <p>{{selected_item.caption}}</p>
-              </div>
-
-              <div class="right_area">
-                <ul>
-                  <li class="box"><span class="item_name">season</span>
-                  <p>{{selected_item.season}}</p></li>
-                  <li class="box"><span class="item_name">when</span>
-                  <p>{{selected_item.season_monthly}}</p></li>
-                  <li class="box"><span class="item_name">accessibility/span>
-                  <p>{{selected_item.accessibility}}</p></li>
-                  <li class="box"><span class="item_name">crowdness</span>
-                  <p>{{selected_item.crowdness}}</p></li>
-                </ul>
-              </div>
-
-            </div>
-          </div>
+        <div id="detail_card" class="col-md-8">
+          <h2>{{current.place_name}}</h2>
+          <p>{{current.caption}}</p>
+          <p><img v-attr="src:current.picture_url_1">
         </div>
-        -->
-
       </div>
-
 
       <div id="hana_search_result" class="row">
 
+        <input type="checkbox" id="single_marker" v-model="single_marker" />
+        <label for="single_marker">with single marker</label>
         <button v-on:click="updateList">update!!</button>
-
-        <div class="main"> <!-- ここが、1件カード選択した時に詳細情報がのるエリア -->
-          <h2>{{current.name}}</h2>
-          <p><{{current.caption}}</p>
-        </div>
 
         <ul>
           <li v-for="item in list" v-on:click="selectCard($index)">
-            {{item.name}}
+            <p><span>{{item.place_id}}</span>:<span>{{item.place_name}}</span></p>
           </li>
         </ul>
 
@@ -152,8 +102,6 @@
     </div>
 
   </div>
-
-  <script src="lib/lightbox/js/lightbox.js"></script>
 
 </body>
 </html>
